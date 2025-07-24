@@ -8,6 +8,11 @@ import {
 } from "../services/animeService";
 import "../styles/Animes.scss"; // ⬅️ Certifique-se de importar o Sass aqui
 
+type FavoritesResponse = {
+  favorites: any[];
+  animeIds: string[];
+}
+
 interface Anime {
   id: string;
   title: string;
@@ -28,14 +33,20 @@ const Animes = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const [animeList, favs] = await Promise.all([getAnimes(), getFavorites()]);
-        setAnimes(animeList);
-        setFavorites(favs.map((f: any) => f.id));
-      } catch (err) {
-        console.error("Erro ao buscar dados:", err);
-      }
-    };
+  try {
+    const [animeList, favs]: [Anime[], FavoritesResponse] = await Promise.all([
+      getAnimes(),
+      getFavorites(),
+    ]);
+    setAnimes(animeList);
+    setFavorites(favs?.animeIds ?? []);
+    console.log("IDs favoritos carregados:", favs?.animeIds); // ← mais seguro
+  } catch (err) {
+    console.error("Erro ao buscar dados:", err);
+  }
+  
+};
+
     fetchData();
   }, []);
 
