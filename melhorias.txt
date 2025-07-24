@@ -1,0 +1,8 @@
+Adicionar avatar personalizado via imagem.
+
+Mostrar animes favoritos com thumbnails.
+
+Mostrar gênero preferido ou biografia.
+
+Trocar o banner dinamicamente por usuário.
+

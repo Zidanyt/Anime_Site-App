@@ -1,0 +1,126 @@
+.animes-page {
+  padding: 1rem;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+.animes-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.animes-page .anime-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .animes-page .anime-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .animes-page .anime-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .animes-page .anime-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 1536px) {
+  .animes-page .anime-list {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+.animes-page .anime-card {
+  height: auto;
+  max-height: 520px;
+  background: var(--color-navbar);
+  color: var(--color-text);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  border: 1px solid var(--color-border);
+}
+.animes-page .anime-card:hover {
+  transform: translateY(-5px);
+}
+.animes-page .anime-card img {
+  width: 10rem;
+  height: 10rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.animes-page .anime-card .anime-info {
+  width: 100%;
+}
+.animes-page .anime-card .anime-info h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+.animes-page .anime-card .anime-info p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+.animes-page .anime-card .anime-info p strong {
+  color: var(--color-text);
+}
+.animes-page .anime-card .anime-info .fav-btn {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #ff4d6d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.animes-page .anime-card .anime-info .fav-btn:hover {
+  background-color: #ff1e4d;
+}
+.animes-page .anime-card .anime-info .fav-btn::after {
+  background-color: #198d15;
+}
+.animes-page .anime-card .anime-info .rating {
+  margin-top: 0.7rem;
+}
+.animes-page .anime-card .anime-info .rating .star {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #444;
+  transition: color 0.2s;
+}
+.animes-page .anime-card .anime-info .rating .star.filled {
+  color: #fcd34d;
+}
+.animes-page .favorite-button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+.animes-page .favorite-button.add {
+  background-color: #dc2626;
+}
+.animes-page .favorite-button.add:hover {
+  background-color: #b91c1c;
+}
+.animes-page .favorite-button.remove {
+  background-color: #16a34a;
+}
+.animes-page .favorite-button.remove:hover {
+  background-color: #15803d;
+}/*# sourceMappingURL=Animes.css.map */

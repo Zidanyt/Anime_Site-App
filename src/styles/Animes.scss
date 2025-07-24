@@ -1,0 +1,140 @@
+.animes-page {
+  padding: 1rem;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .anime-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (min-width: 1536px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .anime-card {
+    height: auto;
+    max-height: 520px;
+    background: var(--color-navbar);
+    color: var(--color-text);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--color-border);
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    img {
+      width: 10rem;
+      height: 10rem;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .anime-info {
+      width: 100%;
+
+      h3 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+        color: var(--color-text);
+      }
+
+      p {
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+        color: var(--color-text);
+
+        strong {
+          color: var(--color-text);
+        }
+      }
+
+      .fav-btn {
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: #ff4d6d;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #ff1e4d;
+        }
+      }
+
+      .fav-btn::after {
+        background-color: #198d15;
+      }
+
+      .rating {
+        margin-top: 0.7rem;
+
+        .star {
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #444;
+          transition: color 0.2s;
+
+          &.filled {
+            color: #fcd34d; // amarelo
+          }
+        }
+      }
+    }
+  }
+
+  .favorite-button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+
+    &.add {
+      background-color: #dc2626; // vermelho (Tailwind red-600)
+
+      &:hover {
+        background-color: #b91c1c; // red-700
+      }
+    }
+
+    &.remove {
+      background-color: #16a34a; // verde (Tailwind green-600)
+
+      &:hover {
+        background-color: #15803d; // green-700
+      }
+    }
+  }
+}

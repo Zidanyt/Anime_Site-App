@@ -1,0 +1,19 @@
+:root {
+  --color-primary: #4F46E5;
+  --color-secondary: rgb(99, 102, 241);
+  --color-bg: #7ba4e2c7;
+  --color-navbar: #4f6db8;
+  --color-text: #000000;
+  --color-text-secondary: #4B5563;
+  --color-border: #E5E7EB;
+}
+
+.dark {
+  --color-primary: #818CF8;
+  --color-secondary: #A5B4FC;
+  --color-bg: #111827;
+  --color-navbar: #1F2937;
+  --color-text: #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+  --color-border: #374151;
+}/*# sourceMappingURL=variables.css.map */
