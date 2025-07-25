@@ -17,22 +17,31 @@ const Favoritos = () => {
     async function fetchFavorites() {
       try {
         setLoading(true);
+        setError(null);
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Usuário não autenticado");
 
-        const res = await axios.get("http://localhost:5000/api/favorites", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/favorites`, {
+
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log("Favoritos recebidos:", res.data);
         setFavorites(res.data);
-        setError(null);
-      } catch (err) {
-        setError("Erro ao carregar favoritos");
+      } catch (err: any) {
+        console.error("Erro ao carregar favoritos:", err);
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.message || "Erro na requisição");
+        } else {
+          setError(err.message || "Erro desconhecido");
+        }
       } finally {
         setLoading(false);
       }
     }
+
     fetchFavorites();
   }, []);
 

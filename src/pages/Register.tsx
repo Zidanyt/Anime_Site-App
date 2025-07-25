@@ -1,9 +1,9 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../services/animeService";
 
 interface RegisterProps {
-  onRegister: (user: { name: string; email: string }) => void;
+  onRegister: (user: { id: string; name: string; email: string }) => void;
 }
 
 function Register({ onRegister }: RegisterProps) {
@@ -15,16 +15,17 @@ function Register({ onRegister }: RegisterProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        name,
-        email,
-        password,
-      });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      onRegister(res.data.user);
-      navigate("/");
-    } catch (err) {
+      // Note: Seu backend retorna só message e user, sem token no registro
+      const res = await registerUser(name, email, password);
+
+      // Você pode exigir login após registro ou modificar backend pra retornar token
+      // Aqui vamos fazer login automático após registro, então chamamos loginUser novamente:
+      // Alternativamente, peça para o usuário fazer login depois do registro
+
+      alert("Usuário registrado com sucesso! Faça login.");
+
+      navigate("/login");
+    } catch {
       alert("Registro falhou");
     }
   };

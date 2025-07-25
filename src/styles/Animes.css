@@ -123,4 +123,21 @@
 }
 .animes-page .favorite-button.remove:hover {
   background-color: #15803d;
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loading-gif {
+  width: 120px;
+  height: 120px;
+  -o-object-fit: contain;
+     object-fit: contain;
 }/*# sourceMappingURL=Animes.css.map */

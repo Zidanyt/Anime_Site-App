@@ -1,9 +1,9 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../services/animeService";
 
 interface LoginProps {
-  onLogin: (user: { name: string; email: string }) => void;
+  onLogin: (user: { id: string; name: string; email: string }) => void;
 }
 
 function Login({ onLogin }: LoginProps) {
@@ -14,12 +14,13 @@ function Login({ onLogin }: LoginProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      onLogin(res.data.user);
+      const res = await loginUser(email, password);
+      // Seu backend retorna { token, user }
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+      onLogin(res.user);
       navigate("/");
-    } catch (err) {
+    } catch {
       alert("Login falhou");
     }
   };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getUserProfile } from "../../services/animeService";
 import "./profile.page.sass";
 
 const ProfilePage = () => {
@@ -9,13 +9,8 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/auth/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data);
+        const profile = await getUserProfile();
+        setUser(profile);
       } catch (error) {
         console.error("Erro ao buscar perfil:", error);
       } finally {

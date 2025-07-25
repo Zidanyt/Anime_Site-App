@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 import {
   getAnimes,
+  getFavorites,
   addToFavorites,
   removeFromFavorites,
-  getFavorites,
   rateAnime,
 } from "../services/animeService";
-import "../styles/Animes.scss"; // ⬅️ Certifique-se de importar o Sass aqui
-
-type FavoritesResponse = {
-  favorites: any[];
-  animeIds: string[];
-}
+import "../styles/Animes.scss";
 
 interface Anime {
   id: string;
@@ -30,41 +25,57 @@ const Animes = () => {
   const [animes, setAnimes] = useState<Anime[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [hoveredStars, setHoveredStars] = useState<{ [key: string]: number }>({});
+  const [loading, setLoading] = useState<boolean>(true); // <- estado de carregamento
 
   useEffect(() => {
-    const fetchData = async () => {
-  try {
-    const [animeList, favs]: [Anime[], FavoritesResponse] = await Promise.all([
-      getAnimes(),
-      getFavorites(),
-    ]);
-    setAnimes(animeList);
-    setFavorites(favs?.animeIds ?? []);
-    console.log("IDs favoritos carregados:", favs?.animeIds); // ← mais seguro
-  } catch (err) {
-    console.error("Erro ao buscar dados:", err);
-  }
-  
-};
-
-    fetchData();
+    async function loadData() {
+      try {
+        const animesData = await getAnimes();
+        const favData = await getFavorites();
+        setAnimes(animesData);
+        setFavorites(favData.animeIds || []);
+      } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+      } finally {
+        setLoading(false); // <- fim do carregamento
+      }
+    }
+    loadData();
   }, []);
 
   const toggleFavorite = async (animeId: string) => {
-    if (favorites.includes(animeId)) {
-      await removeFromFavorites(animeId);
-      setFavorites(favorites.filter((id) => id !== animeId));
-    } else {
-      await addToFavorites(animeId);
-      setFavorites([...favorites, animeId]);
+    try {
+      if (favorites.includes(animeId)) {
+        await removeFromFavorites(animeId);
+        setFavorites((prev) => prev.filter((id) => id !== animeId));
+      } else {
+        await addToFavorites(animeId);
+        setFavorites((prev) => [...prev, animeId]);
+      }
+    } catch (error) {
+      console.error("Erro ao alternar favorito:", error);
     }
   };
 
   const handleRating = async (animeId: string, score: number) => {
-    await rateAnime(animeId, score);
-    const updated = await getAnimes();
-    setAnimes(updated);
+    try {
+      await rateAnime(animeId, score);
+      const updatedAnimes = await getAnimes();
+      setAnimes(updatedAnimes);
+    } catch (error) {
+      console.error("Erro ao avaliar anime:", error);
+    }
   };
+
+  if (loading) {
+    return <div className="loading-overlay">
+        <img
+          src="https://th.bing.com/th/id/R.cd6d5c805f8c007014915f8ef14c926e?rik=quzehtmYo8yE8g&riu=http%3a%2f%2fpa1.narvii.com%2f6909%2fc92d8f3b7babc938ab6686671f207a33c56e3e35r1-500-719_00.gif&ehk=Vd1zHGb3837Rjhpt2Yst23joQvyQGSGRp9%2fFqB6gD%2fg%3d&risl=&pid=ImgRaw&r=0"
+          alt="Carregando..."
+          className="loading-gif"
+        />
+      </div>
+  } 
 
   return (
     <div className="animes-page">
@@ -72,11 +83,10 @@ const Animes = () => {
       <div className="anime-list">
         {animes.map((anime) => {
           const isFav = favorites.includes(anime.id);
-          const averageRating =
+          const avgRating =
             anime.ratings && anime.ratings.length > 0
-              ? anime.ratings.reduce((acc, r) => acc + r.score, 0) / anime.ratings.length
+              ? anime.ratings.reduce((sum, r) => sum + r.score, 0) / anime.ratings.length
               : 0;
-
           const hovered = hoveredStars[anime.id] || 0;
 
           return (
@@ -90,20 +100,20 @@ const Animes = () => {
                 <p><strong>Status:</strong> {anime.status || "?"}</p>
                 <p><strong>Episódios:</strong> {anime.episodesCount ?? "?"}</p>
                 <p><strong>Lançamento:</strong> {anime.releaseDate ? new Date(anime.releaseDate).toLocaleDateString() : "?"}</p>
-                <p><strong>Média:</strong> {averageRating.toFixed(1)} / 5</p>
+                <p><strong>Média:</strong> {avgRating.toFixed(1)} / 5</p>
 
                 <button
-                className={`favorite-button ${isFav ? "remove" : "add"}`}
-                onClick={() => toggleFavorite(anime.id)}
+                  className={`favorite-button ${isFav ? "remove" : "add"}`}
+                  onClick={() => toggleFavorite(anime.id)}
                 >
-                {isFav ? "💚 Desfavoritar" : "❤️ Favoritar"}
+                  {isFav ? "💚 Desfavoritar" : "❤️ Favoritar"}
                 </button>
 
                 <div className="rating">
                   {[1, 2, 3, 4, 5].map((n) => (
                     <span
                       key={n}
-                      className={`star ${n <= (hovered || averageRating) ? "filled" : ""}`}
+                      className={`star ${n <= (hovered || avgRating) ? "filled" : ""}`}
                       onClick={() => handleRating(anime.id, n)}
                       onMouseEnter={() => setHoveredStars((prev) => ({ ...prev, [anime.id]: n }))}
                       onMouseLeave={() => setHoveredStars((prev) => ({ ...prev, [anime.id]: 0 }))}
