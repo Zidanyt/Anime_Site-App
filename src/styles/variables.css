@@ -16,4 +16,13 @@
   --color-text: #F9FAFB;
   --color-text-secondary: #9CA3AF;
   --color-border: #374151;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  color-margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }/*# sourceMappingURL=variables.css.map */

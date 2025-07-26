@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUser } from "../services/animeService";
+import { loginUser } from "../../services/animeService";
+
+import "./login.sass";
 
 interface LoginProps {
   onLogin: (user: { id: string; name: string; email: string }) => void;
@@ -15,7 +17,6 @@ function Login({ onLogin }: LoginProps) {
     e.preventDefault();
     try {
       const res = await loginUser(email, password);
-      // Seu backend retorna { token, user }
       localStorage.setItem("token", res.token);
       localStorage.setItem("user", JSON.stringify(res.user));
       onLogin(res.user);
@@ -26,7 +27,7 @@ function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form_login">
       <h2>Login</h2>
       <input
         placeholder="Email"

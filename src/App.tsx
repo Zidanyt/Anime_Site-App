@@ -1,3 +1,5 @@
+import "./styles/variables.sass";
+
 import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -13,26 +15,28 @@ import Animes from "./pages/Animes";
 import Top10 from "./pages/Top10";
 import Favoritos from "./pages/Favoritos";
 import NovosAnimes from "./pages/NovosAnimes";
-import Login from "./pages/Login";
+import Login from "./pages/login/Login";
 import Register from "./pages/Register";
 import ProfilePage from "./pages/profile/ProfilePage";
 
 function AppWrapper() {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const [darkMode, setDarkMode] = useState(false); // estado do tema
+  const [darkMode, setDarkMode] = useState(() => {
+    // Lê o tema salvo no carregamento inicial (evita piscar)
+    const saved = localStorage.getItem("darkMode");
+    return saved === "true";
+  });
+
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Carrega usuário e tema ao iniciar
+  // Carrega usuário salvo (não tema, pois já foi feito no estado inicial acima)
   useEffect(() => {
     const userStr = localStorage.getItem("user");
     if (userStr) setUser(JSON.parse(userStr));
-
-    const savedTheme = localStorage.getItem("darkMode");
-    setDarkMode(savedTheme === "true");
   }, []);
 
-  // Aplica ou remove classe dark no root
+  // Aplica ou remove classe .dark no root e salva no localStorage
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode) {
@@ -40,9 +44,12 @@ function AppWrapper() {
     } else {
       root.classList.remove("dark");
     }
-    // Salva escolha no localStorage para persistir
     localStorage.setItem("darkMode", darkMode.toString());
   }, [darkMode]);
+
+  const toggleTheme = () => {
+    setDarkMode((prev) => !prev);
+  };
 
   const logout = () => {
     setUser(null);
@@ -54,9 +61,8 @@ function AppWrapper() {
 
   return (
     <>
-      {/* Botão toggle de tema */}
       <div style={{ position: "fixed", top: 10, right: 10, zIndex: 999 }}>
-        <button onClick={() => setDarkMode(!darkMode)} style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
+        <button onClick={toggleTheme} style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
           {darkMode ? "🌞 Claro" : "🌙 Escuro"}
         </button>
       </div>
@@ -86,7 +92,6 @@ function AppWrapper() {
     </>
   );
 }
-
 
 function App() {
   return (

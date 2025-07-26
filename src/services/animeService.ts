@@ -6,11 +6,15 @@ const API_URL = `${BASE_URL}/api/animes`;
 const FAVORITES_URL = `${BASE_URL}/api/favorites`;
 const RATINGS_URL = `${BASE_URL}/api/ratings`;
 
-const getAuthHeader = () => ({
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-});
+const getAuthHeader = () => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Token de autenticação não encontrado");
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
 
 export const getAnimes = async () => {
   const response = await axios.get(API_URL);

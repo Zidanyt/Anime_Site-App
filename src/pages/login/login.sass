@@ -1,0 +1,62 @@
+@use "../../styles/variables.sass" as *
+
+.form_login
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  border: 1px solid var(--color-border)
+  background-color: var(--color-navbar)
+  color: var(--color-text)
+  border-radius: 12px
+  width: 90%
+  max-width: 400px
+  padding: 2rem
+  margin: 5rem auto
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2)
+  transition: background-color 0.3s, color 0.3s
+
+  h2
+    margin-bottom: 1.5rem
+    font-size: 1.8rem
+    color: var(--color-text)
+
+  input
+    width: 100%
+    padding: 0.75rem
+    margin-bottom: 1rem
+    border: 1px solid var(--color-border)
+    border-radius: 6px
+    background-color: transparent
+    color: var(--color-text)
+    font-size: 1rem
+
+    &:focus
+      outline: none
+      border-color: var(--color-primary)
+
+  button
+    width: 100%
+    padding: 0.75rem
+    border: none
+    border-radius: 6px
+    background-color: var(--color-primary)
+    color: white
+    font-size: 1rem
+    cursor: pointer
+    transition: background-color 0.3s
+
+    &:hover
+      background-color: var(--color-secondary)
+
+  p
+    margin-top: 1rem
+    font-size: 0.9rem
+    color: var(--color-text-secondary)
+
+    a
+      color: var(--color-primary)
+      text-decoration: underline
+
+      &:hover
+        color: var(--color-secondary)
