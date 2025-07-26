@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { registerUser } from "../services/animeService";
+import { registerUser } from "../../services/animeService";
+import "./register.sass";
 
 interface RegisterProps {
   onRegister: (user: { id: string; name: string; email: string }) => void;
@@ -31,7 +32,7 @@ function Register({ onRegister }: RegisterProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form_register">
       <h2>Registrar</h2>
       <input
         placeholder="Nome"

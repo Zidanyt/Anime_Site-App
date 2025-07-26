@@ -16,7 +16,7 @@ import Top10 from "./pages/Top10";
 import Favoritos from "./pages/Favoritos";
 import NovosAnimes from "./pages/NovosAnimes";
 import Login from "./pages/login/Login";
-import Register from "./pages/Register";
+import Register from "./pages/register/Register";
 import ProfilePage from "./pages/profile/ProfilePage";
 
 function AppWrapper() {

@@ -1,0 +1,90 @@
+:root {
+  --color-primary: #4F46E5;
+  --color-secondary: rgb(99, 102, 241);
+  --color-bg: #7ba4e2c7;
+  --color-navbar: #4f6db8;
+  --color-text: #000000;
+  --color-text-secondary: #4B5563;
+  --color-border: #E5E7EB;
+}
+
+.dark {
+  --color-primary: #818CF8;
+  --color-secondary: #A5B4FC;
+  --color-bg: #111827;
+  --color-navbar: #1F2937;
+  --color-text: #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+  --color-border: #374151;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  color-margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.form_register {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-navbar);
+  color: var(--color-text);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  padding: 2rem;
+  margin: 5rem auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, color 0.3s;
+}
+.form_register h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: var(--color-text);
+}
+.form_register input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+.form_register input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+.form_register button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.form_register button:hover {
+  background-color: var(--color-secondary);
+}
+.form_register p {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+.form_register p a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+.form_register p a:hover {
+  color: var(--color-secondary);
+}/*# sourceMappingURL=register.css.map */
