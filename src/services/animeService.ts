@@ -36,12 +36,13 @@ export const getFavorites = async () => {
 
 export const rateAnime = async (animeId: string, score: number) => {
   const response = await axios.post(
-    `${RATINGS_URL}/${animeId}`,
-    { score },
+    `${RATINGS_URL}`,
+    { animeId, score },
     getAuthHeader()
   );
   return response.data;
 };
+
 
 export const registerUser = async (name: string, email: string, password: string) => {
   const response = await axios.post(`${BASE_URL}/api/register`, {
@@ -64,4 +65,10 @@ export const getUserProfile = async () => {
   const response = await axios.get(`${BASE_URL}/api/auth/profile`, getAuthHeader());
   return response.data;
 };
+
+export const getTop10Animes = async () => {
+  const response = await axios.get(`${RATINGS_URL}/top10`, getAuthHeader());
+  return response.data;
+};
+
 
