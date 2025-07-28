@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 
 interface Anime {
   id: string;
@@ -15,11 +16,14 @@ interface Anime {
 }
 
 const Favoritos = () => {
+
   const [favorites, setFavorites] = useState<Anime[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
+    if (!user) return;
     async function fetchFavorites() {
       try {
         setLoading(true);
@@ -54,7 +58,7 @@ const Favoritos = () => {
     }
 
     fetchFavorites();
-  }, []);
+  }, [user]);
 
   if (loading) return <p>Carregando favoritos...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;

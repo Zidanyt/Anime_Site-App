@@ -1,5 +1,4 @@
 import "./styles/variables.sass";
-
 import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -19,10 +18,11 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import ProfilePage from "./pages/profile/ProfilePage";
 
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+
 function AppWrapper() {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const { user, setUser, logout } = useAuth();
   const [darkMode, setDarkMode] = useState(() => {
-    // Lê o tema salvo no carregamento inicial (evita piscar)
     const saved = localStorage.getItem("darkMode");
     return saved === "true";
   });
@@ -30,20 +30,11 @@ function AppWrapper() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Carrega usuário salvo (não tema, pois já foi feito no estado inicial acima)
-  useEffect(() => {
-    const userStr = localStorage.getItem("user");
-    if (userStr) setUser(JSON.parse(userStr));
-  }, []);
-
-  // Aplica ou remove classe .dark no root e salva no localStorage
+  // Aplica/remover classe dark no root
   useEffect(() => {
     const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    if (darkMode) root.classList.add("dark");
+    else root.classList.remove("dark");
     localStorage.setItem("darkMode", darkMode.toString());
   }, [darkMode]);
 
@@ -51,18 +42,15 @@ function AppWrapper() {
     setDarkMode((prev) => !prev);
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-  };
-
   const hideNavbar = location.pathname === "/ProfilePage";
 
   return (
     <>
       <div style={{ position: "fixed", top: 10, right: 10, zIndex: 999 }}>
-        <button onClick={toggleTheme} style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
+        <button
+          onClick={toggleTheme}
+          style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
+        >
           {darkMode ? "🌞 Claro" : "🌙 Escuro"}
         </button>
       </div>
@@ -71,7 +59,10 @@ function AppWrapper() {
 
       {hideNavbar && (
         <div style={{ padding: "1rem" }}>
-          <button onClick={() => navigate(-1)} style={{ fontSize: "1.5rem", cursor: "pointer" }}>
+          <button
+            onClick={() => navigate(-1)}
+            style={{ fontSize: "1.5rem", cursor: "pointer" }}
+          >
             ← Voltar
           </button>
         </div>
@@ -79,13 +70,33 @@ function AppWrapper() {
 
       <div style={{ paddingTop: !hideNavbar && user ? "80px" : 0 }}>
         <Routes>
-          <Route path="/login" element={!user ? <Login onLogin={setUser} /> : <Navigate to="/" />} />
-          <Route path="/register" element={!user ? <Register onRegister={setUser} /> : <Navigate to="/" />} />
+          <Route
+            path="/login"
+            element={!user ? <Login onLogin={setUser} /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/register"
+            element={
+              !user ? <Register onRegister={setUser} /> : <Navigate to="/" />
+            }
+          />
           <Route path="/" element={user ? <Animes /> : <Navigate to="/login" />} />
-          <Route path="/top10" element={user ? <Top10 /> : <Navigate to="/login" />} />
-          <Route path="/favoritos" element={user ? <Favoritos /> : <Navigate to="/login" />} />
-          <Route path="/novos" element={user ? <NovosAnimes /> : <Navigate to="/login" />} />
-          <Route path="/ProfilePage" element={user ? <ProfilePage /> : <Navigate to="/login" />} />
+          <Route
+            path="/top10"
+            element={user ? <Top10 /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/favoritos"
+            element={user ? <Favoritos /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/novos"
+            element={user ? <NovosAnimes /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/ProfilePage"
+            element={user ? <ProfilePage /> : <Navigate to="/login" />}
+          />
           <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
         </Routes>
       </div>
@@ -96,7 +107,9 @@ function AppWrapper() {
 function App() {
   return (
     <Router>
-      <AppWrapper />
+      <AuthProvider>
+        <AppWrapper />
+      </AuthProvider>
     </Router>
   );
 }

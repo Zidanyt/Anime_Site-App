@@ -7,6 +7,7 @@ import {
 } from "../services/animeService";
 import axios from "axios";
 import "../styles/Animes.scss";
+import { useAuth } from "../contexts/AuthContext";
 
 interface Anime {
   id: string;
@@ -31,8 +32,10 @@ const Top10 = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [hoveredStars, setHoveredStars] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const { user } = useAuth();
 
   useEffect(() => {
+    if (!user) return;
     async function loadTop10() {
       try {
         const token = localStorage.getItem("token");
@@ -57,7 +60,7 @@ const Top10 = () => {
     }
 
     loadTop10();
-  }, []);
+  }, [user]);
 
   const toggleFavorite = async (animeId: string) => {
     try {
