@@ -29,6 +29,9 @@ function AppWrapper() {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const showThemeButton = ["/login", "/register"].includes(location.pathname);
+
+
 
   // Aplica/remover classe dark no root
   useEffect(() => {
@@ -46,14 +49,17 @@ function AppWrapper() {
 
   return (
     <>
-      <div style={{ position: "fixed", top: 10, right: 10, zIndex: 999 }}>
-        <button
-          onClick={toggleTheme}
-          style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
-        >
-          {darkMode ? "🌞 Claro" : "🌙 Escuro"}
-        </button>
-      </div>
+      {showThemeButton && (
+        <div style={{ position: "fixed", top: 10, right: 10, zIndex: 999 }}>
+          <button
+            onClick={toggleTheme}
+            style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
+          >
+            {darkMode ? "🌞 Claro" : "🌙 Escuro"}
+          </button>
+        </div>
+      )}
+
 
       {!hideNavbar && user && <Navbar user={user} logout={logout} />}
 
