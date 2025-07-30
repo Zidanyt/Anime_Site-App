@@ -43,7 +43,6 @@ const ProfilePage: React.FC<ProfileProps> = () => {
           <div className="avatar">{initial}</div>
           <h2>{user.name}</h2>
           {user.email && <p className="email">{user.email}</p>}
-
           <button className="logout-button" onClick={handleLogout}>
             Sair
           </button>
