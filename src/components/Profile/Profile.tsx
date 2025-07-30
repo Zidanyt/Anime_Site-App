@@ -11,7 +11,7 @@ const Profile = ({ name }: ProfileProps) => {
   return (
     <div className="profile-container"> 
       <div className="profile-initial">{initial}</div>
-      <span className="profile-name">{name}</span>
+      {/* <span className="profile-name">{name}</span> */}
     </div>
   );
 };

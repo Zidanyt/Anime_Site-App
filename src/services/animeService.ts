@@ -71,4 +71,7 @@ export const getTop10Animes = async () => {
   return response.data;
 };
 
-
+export const getNewAnimes = async () => {
+  const response = await axios.get(`${API_URL}/new`);
+  return response.data;
+};

@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { getUserProfile } from "../../services/animeService";
+import { useNavigate } from "react-router-dom";
 import "./profile.page.sass";
 
-const ProfilePage = () => {
+interface ProfileProps {}
+
+const ProfilePage: React.FC<ProfileProps> = () => {
   const [user, setUser] = useState<{ name: string; email?: string } | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -26,13 +30,23 @@ const ProfilePage = () => {
 
   const initial = user.name.charAt(0).toUpperCase();
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <div className="container">
       <div className="profile-page">
         <div className="profile-card">
           <div className="avatar">{initial}</div>
           <h2>{user.name}</h2>
-          {/* {user.email && <p className="email">{user.email}</p>} */}
+          {user.email && <p className="email">{user.email}</p>}
+
+          <button className="logout-button" onClick={handleLogout}>
+            Sair
+          </button>
         </div>
       </div>
     </div>

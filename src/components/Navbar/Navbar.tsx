@@ -8,7 +8,7 @@ interface NavbarProps {
   logout: () => void;
 }
 
-const Navbar = ({ user, logout }: NavbarProps) => {
+const Navbar = ({ user }: NavbarProps) => {
   const [menuAberto, setMenuAberto] = useState(false);
   const [tema, setTema] = useState("claro");
   const isMobile = () => window.innerWidth < 768;
@@ -85,14 +85,11 @@ const Navbar = ({ user, logout }: NavbarProps) => {
         </div>
 
         <Link to="/ProfilePage">
-          <div  className="navbar-profile">
+          <div className="navbar-profile">
             <Profile name={user.name} />
-            {/* <span>{user.name}</span> */}
-            <button onClick={logout} style={{ cursor: "pointer" }}>
-              Sair
-            </button>
           </div>
         </Link>
+
       </nav>
 
       <div className={`side-menu ${menuAberto ? "ativo" : ""}`}>
@@ -113,11 +110,8 @@ const Navbar = ({ user, logout }: NavbarProps) => {
         </Link>
         <Link to="/ProfilePage" onClick={toggleMenu}>
           <div className="side-profile-mobile">
-        <Profile name={user.name} />
-        <button onClick={logout} style={{ cursor: "pointer", marginTop: "0.5rem" }}>
-          Sair
-        </button>
-      </div>
+            <Profile name={user.name} />
+          </div>
         </Link>
       </div>
       {menuAberto && <div className="overlay" onClick={toggleMenu} />}
