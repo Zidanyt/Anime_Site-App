@@ -33,7 +33,6 @@ function AppWrapper() {
 
 
 
-  // Aplica/remover classe dark no root
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode) root.classList.add("dark");
@@ -112,11 +111,9 @@ function AppWrapper() {
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <AppWrapper />
-      </AuthProvider>
-    </Router>
+    <AuthProvider>
+      <AppWrapper />
+    </AuthProvider>
   );
 }
 

@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import "../styles/Animes.scss";
 import { useAuth } from "../contexts/AuthContext";
+import { useSearch } from "../../SearchContext";
 
 interface Anime {
   id: string;
@@ -33,6 +34,7 @@ const Top10 = () => {
   const [hoveredStars, setHoveredStars] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const { user } = useAuth();
+  const { termo } = useSearch();
 
   useEffect(() => {
     if (!user) return;
@@ -93,6 +95,10 @@ const Top10 = () => {
     }
   };
 
+  const filteredTopAnimes = topAnimes.filter(({ anime }) =>
+    anime.title.toLowerCase().includes(termo.toLowerCase())
+  );
+
   if (loading) {
     return (
       <div className="loading-overlay">
@@ -108,54 +114,58 @@ const Top10 = () => {
   return (
     <div className="animes-page">
       <h1>Top 10 Animes Mais Bem Avaliados</h1>
-      <div className="anime-list">
-        {topAnimes.map(({ anime, average }) => {
-          const isFav = favorites.includes(anime.id);
-          const hovered = hoveredStars[anime.id] || 0;
-          const avgRating = average;
+      {filteredTopAnimes.length === 0 ? (
+        <p>Nenhum anime encontrado com essa busca.</p>
+      ) : (
+        <div className="anime-list">
+          {filteredTopAnimes.map(({ anime, average }) => {
+            const isFav = favorites.includes(anime.id);
+            const hovered = hoveredStars[anime.id] || 0;
+            const avgRating = average;
 
-          return (
-            <div key={anime.id} className="anime-card">
-              <img loading="lazy" src={anime.image} alt={anime.title} />
-              <div className="anime-info">
-                <h3>{anime.title}</h3>
-                <p><strong>Descrição:</strong> {anime.description}</p>
-                <p><strong>Autor:</strong> {anime.author || "Desconhecido"}</p>
-                <p><strong>Estúdio:</strong> {anime.studio || "Desconhecido"}</p>
-                <p><strong>Status:</strong> {anime.status || "?"}</p>
-                <p><strong>Episódios:</strong> {anime.episodesCount ?? "?"}</p>
-                <p><strong>Lançamento:</strong> {anime.releaseDate ? new Date(anime.releaseDate).toLocaleDateString() : "?"}</p>
-                <p><strong>Média:</strong> {avgRating.toFixed(1)} / 5</p>
+            return (
+              <div key={anime.id} className="anime-card">
+                <img loading="lazy" src={anime.image} alt={anime.title} />
+                <div className="anime-info">
+                  <h3>{anime.title}</h3>
+                  <p><strong>Descrição:</strong> {anime.description}</p>
+                  <p><strong>Autor:</strong> {anime.author || "Desconhecido"}</p>
+                  <p><strong>Estúdio:</strong> {anime.studio || "Desconhecido"}</p>
+                  <p><strong>Status:</strong> {anime.status || "?"}</p>
+                  <p><strong>Episódios:</strong> {anime.episodesCount ?? "?"}</p>
+                  <p><strong>Lançamento:</strong> {anime.releaseDate ? new Date(anime.releaseDate).toLocaleDateString() : "?"}</p>
+                  <p><strong>Média:</strong> {avgRating.toFixed(1)} / 5</p>
 
-                <button
-                  className={`favorite-button ${isFav ? "remove" : "add"}`}
-                  onClick={() => toggleFavorite(anime.id)}
-                >
-                  {isFav ? "💚 Desfavoritar" : "❤️ Favoritar"}
-                </button>
+                  <button
+                    className={`favorite-button ${isFav ? "remove" : "add"}`}
+                    onClick={() => toggleFavorite(anime.id)}
+                  >
+                    {isFav ? "💚 Desfavoritar" : "❤️ Favoritar"}
+                  </button>
 
-                <div className="rating">
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <span
-                      key={n}
-                      className={`star ${n <= (hovered || avgRating) ? "filled" : ""}`}
-                      onClick={() => handleRating(anime.id, n)}
-                      onMouseEnter={() =>
-                        setHoveredStars((prev) => ({ ...prev, [anime.id]: n }))
-                      }
-                      onMouseLeave={() =>
-                        setHoveredStars((prev) => ({ ...prev, [anime.id]: 0 }))
-                      }
-                    >
-                      ★
-                    </span>
-                  ))}
+                  <div className="rating">
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <span
+                        key={n}
+                        className={`star ${n <= (hovered || avgRating) ? "filled" : ""}`}
+                        onClick={() => handleRating(anime.id, n)}
+                        onMouseEnter={() =>
+                          setHoveredStars((prev) => ({ ...prev, [anime.id]: n }))
+                        }
+                        onMouseLeave={() =>
+                          setHoveredStars((prev) => ({ ...prev, [anime.id]: 0 }))
+                        }
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

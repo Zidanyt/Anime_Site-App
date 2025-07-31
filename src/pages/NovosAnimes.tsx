@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import { useSearch } from "../../SearchContext";
 
 interface Anime {
   id: string;
@@ -19,6 +20,8 @@ const NovosAnimes = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+  const { termo } = useSearch();
+  
 
   useEffect(() => {
     if (!user) return;
@@ -47,6 +50,10 @@ const NovosAnimes = () => {
     fetchNewAnimes();
   }, [user]);
 
+  const filteredAnimes = newAnimes.filter((anime) =>
+    anime.title.toLowerCase().includes(termo.toLowerCase())
+  );
+
   if (loading) return <p>Carregando novos animes...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   if (newAnimes.length === 0) return <p>Não há animes novos no momento.</p>;
@@ -54,41 +61,45 @@ const NovosAnimes = () => {
   return (
     <div className="novos-animes-page">
       <h1>Animes Novos</h1>
-      <ul className="anime-list">
-        {newAnimes.map((anime) => (
-          <li key={anime.id} className="anime-item">
-            <img
-              src={anime.image || "/no-image.png"}
-              alt={anime.title || "Anime sem título"}
-              width={200}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "/no-image.png";
-              }}
-            />
-            <div className="anime-info">
-              <h3>
-                {anime.title || "Título indisponível"}
-                <span className="ml-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                  Novo
-                </span>
-              </h3>
-              <p>{anime.description || "Sem descrição disponível."}</p>
-              {anime.author && <p><strong>Autor:</strong> {anime.author}</p>}
-              {anime.studio && <p><strong>Estúdio:</strong> {anime.studio}</p>}
-              {anime.releaseDate && (
-                <p>
-                  <strong>Lançamento:</strong>{" "}
-                  {new Date(anime.releaseDate).toLocaleDateString()}
-                </p>
-              )}
-              {anime.status && <p><strong>Status:</strong> {anime.status}</p>}
-              {anime.episodesCount !== undefined && (
-                <p><strong>Episódios:</strong> {anime.episodesCount}</p>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
+      {filteredAnimes.length === 0 ? (
+        <p>Nenhum anime encontrado com essa busca.</p>
+      ) : (
+        <ul className="anime-list">
+          {filteredAnimes.map((anime) => (
+            <li key={anime.id} className="anime-item">
+              <img
+                src={anime.image || "/no-image.png"}
+                alt={anime.title || "Anime sem título"}
+                width={200}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/no-image.png";
+                }}
+              />
+              <div className="anime-info">
+                <h3>
+                  {anime.title || "Título indisponível"}
+                  <span className="ml-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                    Novo
+                  </span>
+                </h3>
+                <p>{anime.description || "Sem descrição disponível."}</p>
+                {anime.author && <p><strong>Autor:</strong> {anime.author}</p>}
+                {anime.studio && <p><strong>Estúdio:</strong> {anime.studio}</p>}
+                {anime.releaseDate && (
+                  <p>
+                    <strong>Lançamento:</strong>{" "}
+                    {new Date(anime.releaseDate).toLocaleDateString()}
+                  </p>
+                )}
+                {anime.status && <p><strong>Status:</strong> {anime.status}</p>}
+                {anime.episodesCount !== undefined && (
+                  <p><strong>Episódios:</strong> {anime.episodesCount}</p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

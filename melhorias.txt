@@ -6,3 +6,110 @@ Mostrar gênero preferido ou biografia.
 
 Trocar o banner dinamicamente por usuário.
 
+
+
+
+
+
+
+Para polir e elevar a qualidade do seu site de animes, você pode adicionar recursos que melhoram a experiência do usuário, a aparência visual e a funcionalidade. Abaixo estão sugestões divididas por categorias para você escolher o que faz mais sentido no seu projeto:
+
+🔍 Funcionalidades Avançadas
+Filtragem Avançada por Categoria, Status e Gênero
+
+Checkbox ou dropdown para filtrar animes por status (em lançamento, completo), categoria, ano, etc.
+
+Ordenação
+
+Botão para ordenar por:
+
+Nome (A-Z/Z-A)
+
+Mais avaliados
+
+Mais recentes
+
+Favoritos primeiro
+
+Paginação ou Lazy Load
+
+Em vez de carregar todos os animes de uma vez, carregar por página ou conforme o usuário rola a tela (infinite scroll).
+
+Perfil do Usuário
+
+Página com informações pessoais
+
+Lista de animes favoritados
+
+Histórico de avaliações
+
+Sistema de Comentários
+
+Permitir que usuários comentem em cada anime (com moderação, se necessário)
+
+Sistema de Gêneros
+
+Relacionar animes com gêneros (ação, comédia, terror, etc.)
+
+Filtro por gênero na busca
+
+🎨 Melhorias Visuais
+Tema Claro e Escuro automático
+
+Detectar tema do sistema (prefers-color-scheme) ou permitir troca manual
+
+Animações com Framer Motion
+
+Animações suaves nos cards de anime ao carregar, favoritar ou avaliar
+
+Skeleton Loading
+
+Em vez de mostrar um GIF, usar "skeletons" animados (caixas cinzas) enquanto carrega conteúdo
+
+Estética mais refinada
+
+Fontes mais elegantes (ex: Inter, Poppins)
+
+Cards com sombra suave, cantos arredondados, transições ao passar o mouse
+
+💬 Interação com Usuário
+Toast de Feedback
+
+Mensagens como "Anime adicionado aos favoritos!" ou "Erro ao carregar dados" com react-toastify ou sonner
+
+Modal de Detalhes
+
+Ao clicar em um anime, abrir um modal com mais informações sem sair da página
+
+Sistema de Notificações (simples)
+
+Ex: "Novo anime adicionado", "Você avaliou X anime"
+
+🔐 Funcionalidades Avançadas para Usuários
+Login com Google/GitHub (OAuth)
+
+Edição de Perfil
+
+Histórico de avaliação
+
+Salvar progresso de episódio assistido (ex: até ep 4)
+
+📊 Área Administrativa (se quiser evoluir)
+Painel admin (protegido por autenticação)
+
+Gerenciar animes (CRUD completo)
+
+Ver avaliações e usuários cadastrados
+
+Excluir comentários ofensivos
+
+🚀 Otimização e Produção
+PWA: Progressive Web App
+
+Instalável no celular e desktop
+
+SEO básico com React Helmet
+
+Performance com lazy loading de imagens e código
+
+Se quiser, posso te ajudar a implementar qualquer um desses itens passo a passo. Qual te interessa mais agora?

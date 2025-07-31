@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./navbar.component.sass";
 import Profile from "../Profile/Profile";
+import { useSearch } from "../../../SearchContext";
 
 interface NavbarProps {
-  user: { name: string };
+  user: {
+    name: string;
+    avatarUrl?: string | null;
+  };
   logout: () => void;
 }
 
@@ -12,6 +16,7 @@ const Navbar = ({ user }: NavbarProps) => {
   const [menuAberto, setMenuAberto] = useState(false);
   const [tema, setTema] = useState("claro");
   const isMobile = () => window.innerWidth < 768;
+  const { setTermo } = useSearch();
 
   useEffect(() => {
     const temaSalvo = localStorage.getItem("tema") || "claro";
@@ -31,54 +36,23 @@ const Navbar = ({ user }: NavbarProps) => {
   return (
     <>
       <nav className="navbar">
-        <button
-          className="menu-toggle"
-          onClick={() => {
-            if (isMobile()) toggleMenu();
-          }}
-        >
+        <button className="menu-toggle" onClick={() => isMobile() && toggleMenu()}>
           ☰
         </button>
 
         <div className="nav-links">
-          <Link
-            to="/"
-            onClick={() => {
-              if (isMobile()) toggleMenu();
-            }}
-          >
-            Animes
-          </Link>
-          <Link
-            to="/top10"
-            onClick={() => {
-              if (isMobile()) toggleMenu();
-            }}
-          >
-            Top 10
-          </Link>
-          <Link
-            to="/favoritos"
-            onClick={() => {
-              if (isMobile()) toggleMenu();
-            }}
-          >
-            Favoritos
-          </Link>
-          <Link
-            to="/novos"
-            onClick={() => {
-              if (isMobile()) toggleMenu();
-            }}
-          >
-            Novos Animes
-          </Link>
+          <Link to="/" onClick={() => isMobile() && toggleMenu()}>Animes</Link>
+          <Link to="/top10" onClick={() => isMobile() && toggleMenu()}>Top 10</Link>
+          <Link to="/favoritos" onClick={() => isMobile() && toggleMenu()}>Favoritos</Link>
+          <Link to="/novos" onClick={() => isMobile() && toggleMenu()}>Novos Animes</Link>
         </div>
 
         <div style={{ display: "flex", alignItems: "center" }}>
-          <div className="search-input">
-            <input type="text" placeholder="Pesquisar" />
-          </div>
+          <input
+            type="text"
+            placeholder="Pesquisar"
+            onChange={(e) => setTermo(e.target.value)}
+          />
           <button className="theme-toggle" onClick={alternarTema}>
             {tema === "claro" ? "🌙" : "☀️"}
           </button>
@@ -86,31 +60,20 @@ const Navbar = ({ user }: NavbarProps) => {
 
         <Link to="/ProfilePage">
           <div className="navbar-profile">
-            <Profile name={user.name} />
+            <Profile name={user.name} avatarUrl={user.avatarUrl} />
           </div>
         </Link>
-
       </nav>
 
       <div className={`side-menu ${menuAberto ? "ativo" : ""}`}>
-        <button className="fechar" onClick={toggleMenu}>
-          ×
-        </button>
-        <Link to="/" onClick={toggleMenu}>
-          Animes
-        </Link>
-        <Link to="/top10" onClick={toggleMenu}>
-          Top 10
-        </Link>
-        <Link to="/favoritos" onClick={toggleMenu}>
-          Favoritos
-        </Link>
-        <Link to="/novos" onClick={toggleMenu}>
-          Novos Animes
-        </Link>
+        <button className="fechar" onClick={toggleMenu}>×</button>
+        <Link to="/" onClick={toggleMenu}>Animes</Link>
+        <Link to="/top10" onClick={toggleMenu}>Top 10</Link>
+        <Link to="/favoritos" onClick={toggleMenu}>Favoritos</Link>
+        <Link to="/novos" onClick={toggleMenu}>Novos Animes</Link>
         <Link to="/ProfilePage" onClick={toggleMenu}>
           <div className="side-profile-mobile">
-            <Profile name={user.name} />
+            <Profile name={user.name} avatarUrl={user.avatarUrl} />
           </div>
         </Link>
       </div>

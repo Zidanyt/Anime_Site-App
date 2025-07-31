@@ -14,6 +14,12 @@ export const addToFavorites = async (animeId: string) => {
   await api.post(`/api/favorites/${animeId}`);
 };
 
+export const updateAvatar = async (avatarUrl: string) => {
+  const response = await api.patch("/api/auth/profile/avatar", { avatarUrl });
+  return response.data;
+};
+
+
 export const removeFromFavorites = async (animeId: string) => {
   await api.delete(`/api/favorites/${animeId}`);
 };
